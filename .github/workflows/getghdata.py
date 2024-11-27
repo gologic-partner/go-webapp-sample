@@ -1,3 +1,12 @@
+import requests
+import json
+import sys
+import os
+
+owner = os.environ.get('GITHUB_REPOSITORY').split('/',1)[0]
+repo = os.environ.get('GITHUB_REPOSITORY_OWNER')
+gh_token = os.environ.get('GITHUB_TOKEN')
+
 def make_query(after_cursor=None):
     return """
 query getVulnerabilitiesByRepoAndOwner($name: String!, $owner: String!) {
@@ -66,7 +75,7 @@ def get_dependabot_alerts_repository(repo, owner):
     after_cursor = None
     output_result = {"data": {"repository": {"vulnerabilityAlerts": {"nodes": []}}}}
     while keep_fetching:
-        headers = {"Authorization": AUTH_TOKEN}
+        headers = {"Authorization": gh_token}
 
         request = requests.post(
             url="https://api.github.com/graphql",
@@ -104,3 +113,5 @@ def get_dependabot_alerts_repository(repo, owner):
         )
     )
     return json.dumps(output_result, indent=2)
+
+print(get_dependabot_alerts_repository(owner, repo))

@@ -11,6 +11,8 @@ env:
 
 jobs:
   upload_reports:
+    permissions:
+      security-events: read
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout PR commit
