@@ -1,0 +1,21 @@
+name: "DefectDojo Upload Reports"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "master" ]
+    
+env:
+  DEFECTDOJO_API_TOKEN: ${{ secrets.DEFECTDOJO_API_TOKEN }}
+  DEFECTDOJO_IMPORT_API_URL: ${{ secrets.DEFECTDOJO_IMPORT_API_URL }}
+
+jobs:
+  upload_reports:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install requirements
+        run: pip3 install requests
+      - name: Get reports
+        run: python3 getghdata.py
+      # - name: Upload reports
+      #   run: python3 upload.py
