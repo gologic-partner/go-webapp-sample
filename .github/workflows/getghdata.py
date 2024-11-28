@@ -1,11 +1,14 @@
+# Inspired from: https://documentation.defectdojo.com/integrations/parsers/file/github_vulnerability/
+
 import requests
 import json
 import sys
 import os
 
-owner = os.environ.get('GITHUB_REPOSITORY').split('/',1)[0]
+owner = os.environ.get('GITHUB_REPOSITORY').split('/',1)[1]
 repo = os.environ.get('GITHUB_REPOSITORY_OWNER')
 gh_token = os.environ.get('GITHUB_TOKEN')
+output_report_name = sys.argv[1]
 
 def make_query(after_cursor=None):
     return """
@@ -75,7 +78,7 @@ def get_dependabot_alerts_repository(repo, owner):
     after_cursor = None
     output_result = {"data": {"repository": {"vulnerabilityAlerts": {"nodes": []}}}}
     while keep_fetching:
-        headers = {"Authorization": gh_token}
+        headers = {'Authorization': f"Bearer {gh_token}"}
 
         request = requests.post(
             url="https://api.github.com/graphql",
@@ -88,9 +91,12 @@ def get_dependabot_alerts_repository(repo, owner):
         )
 
         result = request.json()
+        # print(json.dumps(result, indent=2))
         output_result["data"]["repository"]["name"] = result["data"]["repository"][
-            "name"
+            "nameWithOwner"
         ]
+        # print (output_result)
+        # return
         output_result["data"]["repository"]["url"] = result["data"]["repository"]["url"]
         if result["data"]["repository"]["vulnerabilityAlerts"]["totalCount"] == 0:
             return None
@@ -112,6 +118,9 @@ def get_dependabot_alerts_repository(repo, owner):
             repo,
         )
     )
+    # return
     return json.dumps(output_result, indent=2)
 
-print(get_dependabot_alerts_repository(owner, repo))
+f = open(output_report_name, "w")
+f.write(get_dependabot_alerts_repository(owner, repo))
+f.close()

@@ -1,29 +1,31 @@
+#Inspired from: https://dev.to/sirlawdin/automate-uploading-security-scan-results-to-defectdojo-7e4
+
 import requests
 import sys
 import os
 
 file_name = sys.argv[1]
-scan_type = ''
+scan_type = 'github'
 
-if file_name == 'gitleaks.json':
-    scan_type = 'Gitleaks Scan'
-elif file_name == 'njsscan.sarif':
-    scan_type = 'SARIF'
-elif file_name == 'semgrep.json':
-    scan_type = 'Semgrep JSON Report'
+# if file_name == 'gitleaks.json':
+#     scan_type = 'Gitleaks Scan'
+# elif file_name == 'njsscan.sarif':
+#     scan_type = 'SARIF'
+# elif file_name == 'semgrep.json':
+#     scan_type = 'Semgrep JSON Report'
 
 apitoken = os.environ.get('DEFECTDOJO_API_TOKEN')
 headers = {
-    print("'Authorization': 'Token %s'" % (apitoken))
+    'Authorization': 'Token ' + apitoken
 }
 
 url = os.environ.get('DEFECTDOJO_IMPORT_API_URL')
 data = {
     'active': True,
     'verified': True,
-    'scan_type': scan_type,
+    'scan_type': 'Github Vulnerability Scan',
     'minimum_severity': 'Low',
-    'engagement': 19
+    'engagement': 1
 }
 
 files = {

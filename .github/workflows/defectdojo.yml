@@ -20,8 +20,8 @@ jobs:
       - name: Install requirements
         run: pip3 install requests
       - name: Get reports
-        run: python3 .github/workflows/getghdata.py
-      - name: debug
-        run: ls -la
-      # - name: Upload reports
-      #   run: python3 .github/workflows/upload.py
+        run: python3 .github/workflows/getghdata.py ghvuln.json
+      # - name: debug
+      #   run: ls -la
+      - name: Upload reports
+        run: python3 .github/workflows/upload.py ghvuln.json
