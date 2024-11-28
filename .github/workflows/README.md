@@ -1,13 +1,15 @@
+# DefectDojo pipeline
 
-
-
+# Github token permissions
+I was only able to make it work with a Classic token with:
+- repo.public_repo
+- repo.security_events
 
 ## Local testing
 ```
 export GITHUB_REPOSITORY=gologic-partner/go-webapp-sample
 export GITHUB_REPOSITORY_OWNER=gologic-partner
 export GITHUB_TOKEN=xxxx
-# This token permissions requirements is to be defined
 
 python3 getghdata.py test.json
 
