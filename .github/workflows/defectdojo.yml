@@ -8,13 +8,10 @@ on:
 env:
   DEFECTDOJO_API_TOKEN: ${{ secrets.DEFECTDOJO_API_TOKEN }}
   DEFECTDOJO_IMPORT_API_URL: ${{ secrets.DEFECTDOJO_IMPORT_API_URL }}
+  GHTOKEN: ${{ secrets.GHTOKEN }}
 
 jobs:
   upload_reports:
-    permissions:
-      security-events: read
-      issues: read
-
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout PR commit
@@ -23,7 +20,5 @@ jobs:
         run: pip3 install requests
       - name: Get reports
         run: python3 .github/workflows/getghdata.py ghvuln.json
-      # - name: debug
-      #   run: ls -la
       - name: Upload reports
         run: python3 .github/workflows/upload.py ghvuln.json

@@ -7,7 +7,7 @@ import os
 
 owner = os.environ.get('GITHUB_REPOSITORY').split('/',1)[1]
 repo = os.environ.get('GITHUB_REPOSITORY_OWNER')
-gh_token = os.environ.get('GITHUB_TOKEN')
+gh_token = os.environ.get('GHTOKEN')
 output_report_name = sys.argv[1]
 
 def make_query(after_cursor=None):
