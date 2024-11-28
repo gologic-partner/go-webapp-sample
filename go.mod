@@ -4,6 +4,7 @@ go 1.22
 toolchain go1.22.0
 
 require (
+	github.com/cli/go-gh/v2 v2.9.0 // Inserted for vuln alert
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/garyburd/redigo v1.6.4 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
