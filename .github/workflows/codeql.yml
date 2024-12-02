@@ -12,10 +12,10 @@
 name: "CodeQL Advanced"
 
 on:
-  # push:
-  #   branches: [ "master" ]
-  # pull_request:
-  #   branches: [ "master" ]
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
   # schedule:
   #   - cron: '30 14 * * 2'
   workflow_dispatch:
@@ -46,8 +46,10 @@ jobs:
         include:
         - language: go
           build-mode: autobuild #assume ok
+          result_filename: go.sarif
         - language: javascript-typescript
           build-mode: none
+          result_filename: javascript.sarif
         # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
         # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
@@ -93,3 +95,10 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    # Upload sarif file to defectdojo
+    - name: Upload Sarif to DefectDojo
+      env:
+        DEFECTDOJO_API_TOKEN: ${{ secrets.DEFECTDOJO_API_TOKEN }}
+        DEFECTDOJO_IMPORT_API_URL: ${{ secrets.DEFECTDOJO_IMPORT_API_URL }}
+      run: python3 .github/workflows/upload.py ../results/${{matrix.result_filename}}
