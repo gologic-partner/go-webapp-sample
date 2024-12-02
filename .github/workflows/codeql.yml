@@ -95,5 +95,8 @@ jobs:
         category: "/language:${{matrix.language}}"
 
     # Upload sarif file to defectdojo
-    - name: debug
-      run: ls -la
+    - name: Upload Sarif to DefectDojo
+      env:
+        DEFECTDOJO_API_TOKEN: ${{ secrets.DEFECTDOJO_API_TOKEN }}
+        DEFECTDOJO_IMPORT_API_URL: ${{ secrets.DEFECTDOJO_IMPORT_API_URL }}
+      run: python3 .github/workflows/upload.py results/${{matrix.language}}.sarif
