@@ -7,9 +7,9 @@ import os
 file_name = sys.argv[1]
 # scan_type = 'github'
 
-if file_name.suffix == '.json':
+if file_name.endswith('.json'):
     scan_type = 'Github Vulnerability Scan'
-elif file_name.suffix == '.sarif':
+elif file_name.endswith('.sarif'):
     scan_type = 'SARIF'
 # elif file_name == 'semgrep.json':
 #     scan_type = 'Semgrep JSON Report'
