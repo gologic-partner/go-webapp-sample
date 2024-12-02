@@ -12,10 +12,10 @@
 name: "CodeQL Advanced"
 
 on:
-  # push:
-  #   branches: [ "master" ]
-  # pull_request:
-  #   branches: [ "master" ]
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
   # schedule:
   #   - cron: '30 14 * * 2'
   workflow_dispatch:
@@ -93,3 +93,7 @@ jobs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
+
+    # Upload sarif file to defectdojo
+    - name: debug
+      run: ls -la
